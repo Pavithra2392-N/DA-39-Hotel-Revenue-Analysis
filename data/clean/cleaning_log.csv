@@ -1,0 +1,13 @@
+Step,Rows affected,Rows after step,Reason / decision
+0. Raw file loaded,0,36275,Source file: data/raw/hotel_reservations.csv
+1. Column names / text trimmed,0,36275,"lower-case names, removed stray spaces"
+2. Rows with missing values dropped,0,36275,Null counts found: none
+3. Exact duplicate rows removed,0,36275,Identical rows across all columns
+3b. Duplicate booking_id removed,0,36275,booking_id must be unique
+4. Invalid arrival dates removed,37,36238,"e.g. 29-Feb-2018 - 2018 is not a leap year, so the date cannot exist"
+5. Zero-night bookings removed,78,36160,0 nights = no room-night revenue can exist
+6. Bookings with zero guests removed,0,36160,A booking must have at least 1 guest
+7. Zero-price rows FLAGGED (kept),467,36160,Free / complimentary stays still occupy rooms (count in occupancy) but are excluded from ADR
+8. Price outliers FLAGGED (kept),1020,36160,IQR rule: price > 181.00. Kept because high prices may be real peak-season rates
+9. Labels tidied + derived columns added,0,36160,"total_nights, total_guests, room_revenue, season, lead_bucket, is_cancelled"
+10. Data types fixed,0,36160,"counts -> int, price -> float, arrival_dt -> date"
